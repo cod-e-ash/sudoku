@@ -1,0 +1,43 @@
+<div class="flex-container">
+	<div class="panel-content timer">
+		Time Elapsed - {{ timeElapsed.minutes }} : {{ timeElapsed.seconds | number: '2.0' }}
+	</div>
+	<div class="start-button" (click)="startNewGame(true)">Start New</div>
+	<div class="panel-content mistakes">Mistakes: {{ sudokuSaved.mistakes }}</div>
+</div>
+<div class="board">
+	<table>
+		<tr *ngFor="let row of sudokuBoardHiddenCloned; let i = index">
+			<td
+				*ngFor="let col of row; let j = index"
+				(click)="sudokuBoardHidden[i][j] === 0 && setActive(i, j)"
+				[ngClass]="{ input: sudokuBoardHidden[i][j] === 0 }"
+			>
+				<div
+					*ngIf="sudokuBoardHidden[i][j] !== 0"
+					class="fixed"
+					[innerHTML]="col"
+				></div>
+				<div
+					*ngIf="sudokuBoardHidden[i][j] === 0"
+					class="input"
+					[innerHTML]="col === 0 ? '' : col"
+					[ngClass]="{
+						'active': i === activeRow && j === activeCol,
+						'changing': changing,
+						'incorrect': col !== sudokuBoardWithAnswer[i][j]
+					}"
+				></div>
+
+				<!-- </div> -->
+			</td>
+		</tr>
+	</table>
+</div>
+<div class="selection">
+	<div class="buttons">
+		<div *ngFor="let si of [1, 2, 3, 4, 5, 6, 7, 8, 9]">
+			<div class="button" (click)="setValue({ key: si })">{{ si }}</div>
+		</div>
+	</div>
+</div>

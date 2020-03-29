@@ -1,0 +1,130 @@
+// .container{
+//     display: flex;
+//     flex-direction: row;
+// }
+.flex-container {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-content: center;
+    margin-bottom: 2em;
+    flex-flow: row wrap;
+}
+
+.panel-content {
+    margin: auto;
+    display: flex;
+    font-weight: bold;
+    color: #8b8888;
+}
+
+table {
+    margin: auto;
+    // padding-right: 5em;
+    border-collapse:collapse;
+    border: 2pt solid rgb(138, 17, 17);
+    text-align: center;
+}
+
+.inputBox {
+    font-size: large;
+    font-weight: bold;
+    cursor: pointer;
+    text-align: center;
+}
+
+td {
+    border: 1pt solid;
+    margin: 2px;
+    width: 28px;
+    height: 28px;
+    text-align: center;
+    padding: 2px;
+    cursor: default;
+    border-collapse: collapse;
+}
+
+td.input
+{
+    cursor: pointer;
+}
+
+div.fixed, div.input {
+    border-color: white;
+    border-width: 2pt;
+    border-style: solid;
+    font-size: large;
+    font-weight: bold;
+    z-index: 1;
+    width: 28px;
+    height: 28px;
+}
+
+div.input.incorrect {
+    color: red;
+}
+
+div.input {
+    color: rgb(3, 163, 3);
+}
+
+.input.active {
+    border-color: rgb(53, 147, 255);
+    border-width: 2pt;
+    border-style: dashed;
+    color: rgb(81, 106, 189) !important;
+    cursor: default;
+    z-index: 0;
+}
+
+.input.active.changing {
+    background-color: rgb(218, 216, 216);
+}
+
+.selection {
+    text-align: center;
+    width: 100%;
+    margin: auto;
+    margin-top: 2em;
+}
+
+.start-button
+{
+    padding: 6px;
+    // margin: 3px;
+    cursor: pointer;
+    // border: thin solid;
+    box-shadow: 1px 1px rgb(44, 40, 40);
+    font-weight: 700;
+    color: rgb(53, 53, 119);
+    border-radius: 5px 5px;
+}
+
+.buttons {
+    display: inline-flex;
+}
+
+.button {
+    width: 28px;
+    height: 28px;
+    margin: 5px;
+    font-size: large;
+    border: none;
+    cursor: pointer;
+    border: thin solid;
+    font-weight: 600;
+    border-radius: 10%;
+    box-shadow: 1px 1px rgb(202, 202, 202);
+}
+.button:active, .start-button:active {
+    background-color: rgb(223, 226, 223);
+    // color: rgb(82, 219, 18);
+}
+
+tr:nth-child(3),tr:nth-child(6) {
+    border-bottom: 2pt solid rgb(252, 96, 24);
+}
+
+td:nth-child(3), td:nth-child(6) {
+    border-right: 2pt solid rgb(252, 96, 24);
+}
