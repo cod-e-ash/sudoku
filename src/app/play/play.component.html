@@ -3,6 +3,7 @@
 		Time Elapsed - {{ timeElapsed.minutes }} : {{ timeElapsed.seconds | number: '2.0' }}
 	</div>
 	<div class="start-button" (click)="startNewGame(true)">Start New</div>
+	<div class="start-button" (click)="reset()">Reset</div>
 	<div class="panel-content mistakes">Mistakes: {{ sudokuSaved.mistakes }}</div>
 </div>
 <div class="board">
@@ -10,13 +11,16 @@
 		<tr *ngFor="let row of sudokuBoardHiddenCloned; let i = index">
 			<td
 				*ngFor="let col of row; let j = index"
-				(click)="sudokuBoardHidden[i][j] === 0 && setActive(i, j)"
-				[ngClass]="{ input: sudokuBoardHidden[i][j] === 0 }"
+				(click)="setActive(i, j)"
+				[ngClass]="{ input: sudokuBoardHidden[i][j] === 0, 
+					'highlightNumber': col === currentNumber,
+					'highlightRow': i === activeRow, 'highlightCol': j === activeCol }"
 			>
 				<div
 					*ngIf="sudokuBoardHidden[i][j] !== 0"
 					class="fixed"
 					[innerHTML]="col"
+					[ngClass]="{'active': i === activeRow && j === activeCol}"
 				></div>
 				<div
 					*ngIf="sudokuBoardHidden[i][j] === 0"

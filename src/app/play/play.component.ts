@@ -1,5 +1,5 @@
-import { Difficulty, SudokuSaved } from './../helpers/helpers';
-import { SudokuCreateService } from './../sudoku-create/sudoku-create.service';
+import { Difficulty, SudokuSaved } from '@src/app/helpers/helpers';
+import { SudokuCreateService } from '@src/app/sudoku-create/sudoku-create.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
 @Component({
@@ -7,7 +7,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 	templateUrl: './play.component.html',
 	styleUrls: ['./play.component.scss'],
 })
-export class PlayComponent implements OnInit, OnDestroy {
+export class PlayComponent implements OnInit {
 	sudokuSaved: SudokuSaved;
 	sudokuBoardWithAnswer: number[][];
 	sudokuBoardHidden: number[][];
@@ -16,12 +16,14 @@ export class PlayComponent implements OnInit, OnDestroy {
 	activeCol = -1;
 	timeElapsed: { minutes: number; seconds: number };
 	changing = false;
+	currentNumber = 0;
+	allDone = false;
 
 	constructor(public createService: SudokuCreateService) {}
 
 	ngOnInit(): void {
 		this.startNewGame();
-		document.addEventListener('keyup', this.setValue);
+		// document.addEventListener('keyup', this.setValue);
 		setInterval(() => {
 			this.timeElapsed.seconds++;
 			if (this.timeElapsed.seconds === 60) {
@@ -34,23 +36,23 @@ export class PlayComponent implements OnInit, OnDestroy {
 		}, 1000);
 	}
 
-	ngOnDestroy(): void {}
-
 	public setActive = (row, col) => {
+		if (this.allDone) { return; }
+
+		this.currentNumber = 0;
 		console.log(row, col);
 		if (row > -1 && row < 9 && col > -1 && col < 9) {
-			if (this.sudokuBoardHidden[row][col] === 0) {
-				this.activeRow = row;
-				this.activeCol = col;
-				return true;
-			}
-			return false;
+			this.activeRow = row;
+			this.activeCol = col;
+			this.currentNumber = this.sudokuBoardHiddenCloned[row][col];
+			return true;
 		}
 		return true;
 	};
 
 	public setValue = (event: any) => {
-		if (this.activeRow < 0 || this.activeCol < 0) {
+
+		if (this.allDone || this.activeRow < 0 || this.activeCol < 0) {
 			return;
 		}
 
@@ -60,6 +62,17 @@ export class PlayComponent implements OnInit, OnDestroy {
 			this.changing = false;
 		}, 120);
 
+		// Process arrow keys first
+		if (event.key.includes && event.key.includes('Arrow')) {
+			this.processArrowKeys(event);
+			return;
+		}
+
+		// If field not editable, do not do anything
+		if (this.sudokuBoardHidden[this.activeRow][this.activeCol] !== 0) {
+			return;
+		}
+
 		// Check which key is pressed
 		// delete if any of the below key is pressed
 		if (
@@ -67,6 +80,7 @@ export class PlayComponent implements OnInit, OnDestroy {
 			event.key === 'Escape' ||
 			event.key === 'Backspace'
 		) {
+			this.allDone = false;
 			this.sudokuBoardHiddenCloned[this.activeRow][this.activeCol] = 0;
 			this.createService.saveSudoku();
 		} else if (/^\d*\.?\d*$/.test(event.key)) {
@@ -79,9 +93,8 @@ export class PlayComponent implements OnInit, OnDestroy {
 			) {
 				this.sudokuSaved.mistakes++;
 			}
+			this.verify();
 			this.createService.saveSudoku();
-		} else if (event.key.includes && event.key.includes('Arrow')) {
-			this.processArrowKeys(event);
 		}
 	};
 
@@ -118,5 +131,16 @@ export class PlayComponent implements OnInit, OnDestroy {
 		this.sudokuBoardHidden = this.sudokuSaved.sudokuHidden;
 		this.sudokuBoardHiddenCloned = this.sudokuSaved.userSolved;
 		this.timeElapsed = this.sudokuSaved.timeElapsed;
+	};
+
+	public reset = () => {
+		this.createService.resetUserSave();
+		this.startNewGame(false);
+	};
+
+	public verify = () => {
+		this.allDone =
+			this.sudokuBoardHidden.toString() ===
+			this.sudokuBoardHiddenCloned.toString();
 	};
 }

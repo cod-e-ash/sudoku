@@ -1,7 +1,10 @@
 {
-  "extends": "tslint:recommended",
+  "extends": [
+    "tslint:recommended",
+    "@nativescript/tslint-rules"
+  ],
   "rules": {
-    "semicolon":false,
+    "semicolon": false,
     "array-type": false,
     "arrow-parens": false,
     "deprecation": {
@@ -86,8 +89,24 @@
     "template-no-negated-async": true,
     "use-lifecycle-interface": true,
     "use-pipe-transform-interface": true,
-    "indent": [true, "tabs", 4],
-    "disable-next-line": ["curly", "one-line", "whitespace"]
+    "indent": [
+      true,
+      "tabs",
+      4
+    ],
+    "disable-next-line": [
+      "curly",
+      "one-line",
+      "whitespace"
+    ],
+    "prefer-mapped-imports": [
+      true,
+      {
+        "prefix": "@src/",
+        "prefix-mapped-to": "src/",
+        "base-url": "./"
+      }
+    ]
   },
   "rulesDirectory": [
     "codelyzer"

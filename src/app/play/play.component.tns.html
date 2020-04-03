@@ -1,0 +1,65 @@
+<StackLayout>
+	<FlexboxLayout class="flex-container" orientation="horizontal" justifyContent="space-between">
+		<label
+			class="panel-content timer"
+			text="Time Elapsed - {{ timeElapsed.minutes }} : {{ timeElapsed.seconds | number: '2.0' }}"
+		></label>
+		<label
+			class="panel-content mistakes"
+			text="Mistakes: {{ sudokuSaved.mistakes }}"
+		></label>
+	</FlexboxLayout>
+	<GridLayout
+		[disabled]="true"
+		class="grid"
+		rows="*,*,*,*,*,*,*,*,*"
+		columns="*,*,*,*,*,*,*,*,*"
+		width="390"
+		height="390"
+	>
+		<template *ngFor="let row of sudokuBoardHiddenCloned; index as i">
+			<template *ngFor="let col of row; index as j">
+				<StackLayout
+					class="box"
+					[row]="i"
+					[col]="j"
+					(onTap)="setActive(i, j)"
+					[ngClass]="{ 
+					'input': sudokuBoardHidden[i][j] === 0, 
+					'highlightNumber': col === currentNumber,
+					'highlightRow': i === activeRow, 'highlightCol': j === activeCol,
+					'active': i === activeRow && j === activeCol,
+					'thirdRow': i === 2 || i === 5, 'thirdCol': j === 2 || j === 5,
+					'incorrect': col !== sudokuBoardWithAnswer[i][j] }"
+				>
+					<label
+						*ngIf="sudokuBoardHidden[i][j] !== 0"
+						[text]="col"
+					></label>
+					<label
+						*ngIf="sudokuBoardHidden[i][j] === 0"
+						[text]="col !== 0 ? col : ''"
+					></label>
+				</StackLayout>
+			</template>
+			<!-- </StackLayout> -->
+		</template>
+	</GridLayout>
+	<GridLayout
+		class="grid-buttons"
+		rows="*"
+		columns="*,*,*,*,*,*,*,*,*"
+		width="390"
+		height="60"
+	>
+		<template *ngFor="let si of [1, 2, 3, 4, 5, 6, 7, 8, 9]; index as k">
+			<StackLayout row="0" [col]="k">
+				<button
+					(tap)="setValue({ key: si })"
+					[text]="si"
+					class="-outline -rounded-sm button"
+				></button>
+			</StackLayout>
+		</template>
+	</GridLayout>
+</StackLayout>

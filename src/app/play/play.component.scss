@@ -77,6 +77,15 @@ div.input {
     z-index: 0;
 }
 
+.fixed.active {
+    // border-color: rgb(229, 230, 231);
+    // border-width: 2pt;
+    // border-style: solid;
+    color: rgb(81, 106, 189) !important;
+    cursor: default;
+    z-index: 0;
+}
+
 .input.active.changing {
     background-color: rgb(218, 216, 216);
 }
@@ -91,7 +100,7 @@ div.input {
 .start-button
 {
     padding: 6px;
-    // margin: 3px;
+    margin-right: 4.5em;
     cursor: pointer;
     // border: thin solid;
     box-shadow: 1px 1px rgb(44, 40, 40);
@@ -127,4 +136,16 @@ tr:nth-child(3),tr:nth-child(6) {
 
 td:nth-child(3), td:nth-child(6) {
     border-right: 2pt solid rgb(252, 96, 24);
+}
+
+.highlightNumber {
+    color: rgb(81, 106, 189) !important;
+}
+
+.highlightRow {
+    background-color: rgb(244, 244, 244);
+}
+
+.highlightCol {
+    background-color: rgb(244, 244, 244);
 }

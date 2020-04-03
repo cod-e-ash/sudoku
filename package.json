@@ -2,15 +2,27 @@
   "name": "sudoku",
   "version": "0.0.0",
   "scripts": {
+    "android": "tns run android",
+    "ios": "tns run ios",
+    "mobile": "tns run",
+    "preview": "tns preview",
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "ngcc": "ngcc --properties es2018 module main --first-only",
+    "postinstall": "npm run ngcc"
   },
   "private": true,
   "dependencies": {
+    "@nativescript/angular": "https://github.com/nstudio/ns-ng/blob/master/nativescript-angular-9.0.0.tgz?raw=true",
+    "nativescript-angular": "https://github.com/nstudio/ns-ng/blob/master/nativescript-angular-compat.tgz?raw=true",
+    "@nativescript/theme": "~2.2.1",
+    "reflect-metadata": "~0.1.12",
+    "tns-core-modules": "~6.3.0",
+    "tslib": "^1.10.0",
     "@angular/animations": "~9.0.7",
     "@angular/common": "~9.0.7",
     "@angular/compiler": "~9.0.7",
@@ -19,11 +31,14 @@
     "@angular/platform-browser": "~9.0.7",
     "@angular/platform-browser-dynamic": "~9.0.7",
     "@angular/router": "~9.0.7",
+    "@nativescript/schematics": "^1.0.0",
     "rxjs": "~6.5.4",
-    "tslib": "^1.10.0",
     "zone.js": "~0.10.2"
   },
   "devDependencies": {
+    "nativescript-dev-webpack": "~1.5.0",
+    "@nativescript/schematics": "~1.0.0",
+    "@nativescript/tslint-rules": "~0.0.5",
     "@angular-devkit/build-angular": "~0.900.7",
     "@angular/cli": "~9.0.7",
     "@angular/compiler-cli": "~9.0.7",
@@ -44,5 +59,11 @@
     "ts-node": "~8.3.0",
     "tslint": "~5.18.0",
     "typescript": "~3.7.5"
+  },
+  "nativescript": {
+    "id": "org.nativescript.ngsample",
+    "tns-android": {
+      "version": "6.5.0"
+    }
   }
 }

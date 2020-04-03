@@ -1,4 +1,4 @@
-import { SudokuSaved, Difficulty } from './../helpers/helpers';
+import { SudokuSaved, Difficulty } from '@src/app/helpers/helpers';
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -21,7 +21,9 @@ export class SudokuCreateService {
 		let prvI = 0;
 		this.i = 0;
 		this.j = 0;
-		if (this.sudokuWithAnswers) { this.sudokuWithAnswers.splice(0); }
+		if (this.sudokuWithAnswers) {
+			this.sudokuWithAnswers.splice(0);
+		}
 		this.sudokuWithAnswers = Array.from(
 			Array(9),
 			() => new Array<number>(9)
@@ -139,33 +141,40 @@ export class SudokuCreateService {
 	};
 
 	public getSudoku = (createNew: boolean, difficulty: Difficulty) => {
-		if (!createNew) {
-			const sudokuText = localStorage.getItem('sudoku');
-			if (sudokuText) {
-				this.sudokuSaved = JSON.parse(sudokuText);
-				if (
-					this.sudokuSaved
-				) {
-					return this.sudokuSaved;
-				}
-			}
-		}
+		// if (!createNew) {
+		// 	const sudokuText = localStorage.getItem('sudoku');
+		// 	if (sudokuText) {
+		// 		this.sudokuSaved = JSON.parse(sudokuText);
+		// 		if (this.sudokuSaved) {
+		// 			return this.sudokuSaved;
+		// 		}
+		// 	}
+		// }
 
 		this.generateSudoku();
 		this.hideNumbers(difficulty);
 		this.sudokuSaved = {
 			sudokuWithAnswers: this.sudokuWithAnswers,
 			sudokuHidden: this.sudokuHidden,
-			userSolved: this.sudokuHidden.map(a => a.slice()),
+			userSolved: this.sudokuHidden.map((a) => a.slice()),
 			difficulty: this.difficulty,
 			mistakes: 0,
-			timeElapsed: {minutes: 0, seconds: 0}
+			timeElapsed: { minutes: 0, seconds: 0 },
 		};
 		this.saveSudoku();
 		return this.sudokuSaved;
 	};
 
 	public saveSudoku = () => {
-		localStorage.setItem('sudoku', JSON.stringify(this.sudokuSaved));
+		// localStorage.setItem('sudoku', JSON.stringify(this.sudokuSaved));
+	};
+
+	public resetUserSave = () => {
+		if (this.saveSudoku) {
+			this.sudokuSaved.userSolved = this.sudokuSaved.sudokuHidden.map((a) =>
+				a.slice()
+			);
+		}
+		this.saveSudoku();
 	};
 }
